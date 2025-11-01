@@ -19,7 +19,7 @@ public class Main extends javax.swing.JFrame {
 
     private ArrayList<Pelicula> peliculas = new ArrayList<>();
 
-    /* Es necesario que este accesible para poder modificarlo */
+    /** Es necesario que este accesible para poder modificarlo */
     private JMenuItem menuItemAñadir;
     private JMenuItem menuItemDisconnect;
 
@@ -34,12 +34,13 @@ public class Main extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setContentPane(panel1);
 
-        /* Añadir menu de forma programática */
         JMenuBar menuBar = PrepareMenuBar();
         panel1.add(menuBar, BorderLayout.NORTH);
 
 
-        /* Configuración y carga de la tabla */
+        /**
+         *  Configuración y carga de la tabla
+         *  */
         var modelo = new DefaultTableModel();
         modelo.addColumn("ID");
         modelo.addColumn("Nombre");
@@ -79,7 +80,6 @@ public class Main extends javax.swing.JFrame {
         JMenuBar menuBar = new JMenuBar();
         JMenu jMenuInicio = new JMenu("Inicio");
         JMenuItem menuItemLogin = new JMenuItem("Login");
-        // es un atributo de la clase, no hay que hacer nwe
         menuItemAñadir = new JMenuItem("Añadir");
         menuItemAñadir.setEnabled(false);
         menuItemDisconnect = new JMenuItem("Cerrar Sesión");
@@ -103,8 +103,6 @@ public class Main extends javax.swing.JFrame {
         menuItemLogin.addActionListener(e -> {
 
             (new Login(this, userservice)).setVisible(true);
-
-            // Como es modal, se espera la ejecución hasta que se cierre
 
             ContextService.getInstance().getItem("usuarioActivo").ifPresent( (_)->{
                 menuItemAñadir.setEnabled(true);

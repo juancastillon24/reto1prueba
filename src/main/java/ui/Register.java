@@ -56,6 +56,12 @@ public class Register extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+
+    /**
+     * Comprueba que le usuario que se crea
+     * sea valido
+     * @return escribe en usuarios.csv una nueva linea con los datos
+     */
     private void onOK() {
         if (confirmacionContraseña.getText().equals(contraseña.getText())) {
 

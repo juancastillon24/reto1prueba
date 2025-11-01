@@ -62,6 +62,12 @@ public class CreateForm extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * Al hacer click en el boton guardar añade una nueva linea
+     * a peliculas.csv
+     * @return añade una pelicula a la tabla del main
+     */
+
     private void onOK() {
         Pelicula pelicula = new Pelicula();
 

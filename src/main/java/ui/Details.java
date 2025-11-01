@@ -60,6 +60,13 @@ public class Details extends JDialog {
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
+
+        /**
+         * Comprueba si el usuario esta logeado y si lo esta,
+         * comprueba que su id coincida con la id de quien
+         * creó la pelicula para poder borrarla
+         * @return la lista de peliculas sin la que se ha eliminado
+         */
         eliminarButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 if (ContextService.getInstance().getItem("usuarioActivo").isPresent()) {

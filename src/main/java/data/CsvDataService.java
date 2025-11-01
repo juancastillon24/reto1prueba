@@ -23,6 +23,12 @@ public class CsvDataService implements DataService {
         archivo = csvFile;
     }
 
+
+    /**
+     * Al iniciar la aplicacion por primera vez lee el archivo
+     *
+     * @return todos los datos del archivo peliculas.csv en una list
+     */
     @Override
     public List<Pelicula> findAll() {
         var salida = new ArrayList<Pelicula>();
@@ -60,6 +66,13 @@ public class CsvDataService implements DataService {
         return salida;
     }
 
+
+    /**
+     * Añade una nueva linea al csv
+     *
+     * @return un nuevo objeto Pelicula en la list
+     */
+
     @Override
     public Optional<Pelicula> save(Pelicula pelicula) {
         logger.info("Abriendo el archivo para escribir");
@@ -89,6 +102,12 @@ public class CsvDataService implements DataService {
         return Optional.of(pelicula);
     }
 
+
+    /**
+     * Elimina una pelicula previamente seleccionada, siempre y cuando
+     * el usuario que la haya creado coincida con el que ha iniciado sesion
+     * @return la lista sin la pelicula seleccionada
+     */
     @Override
     public List<Pelicula> delete() {
 

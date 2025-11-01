@@ -12,6 +12,13 @@ public class FileUserService implements UserService {
         archivo = userFile;
     }
 
+    /**
+     *
+     * @param email
+     * @param contraseña
+     * comprobacion de que las credenciales son correctas
+     * @return hacer el login bien o mal depende de si esta bien
+     */
    @Override
    public Optional<Usuario> validate(String email, String contraseña) {
        try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {

@@ -59,6 +59,11 @@ public class Login extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * Comprueba las credenciales a la hora de iniciar sesion
+     * para poder acceder a mas funcionalidades
+     * @return sesion iniciada
+     */
     private void onOK() {
         userService.validate(txtEmail.getText(), txtContraseña.getText()).ifPresentOrElse(
                 (Usuario user) -> {

@@ -7,7 +7,6 @@ public class ContextService {
     private static ContextService instance;
     private static HashMap<String, Object> data = new HashMap<>();
 
-    // Constructor privado --> no se puede instanciar desde fuera
     private  ContextService() {}
 
     public static ContextService getInstance(){
