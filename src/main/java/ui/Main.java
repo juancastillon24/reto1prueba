@@ -21,6 +21,7 @@ public class Main extends javax.swing.JFrame {
 
     /* Es necesario que este accesible para poder modificarlo */
     private JMenuItem menuItemAñadir;
+    private JMenuItem menuItemDisconnect;
 
     public Main(DataService ds, UserService us) {
         dataservice = ds;
@@ -58,6 +59,7 @@ public class Main extends javax.swing.JFrame {
                         ContextService.getInstance().addItem("peliculaSeleccionada", pelicula);
 
                         (new Details(this)).setVisible(true);
+                        loadDataTable();
                     }
                 }
         );
@@ -80,12 +82,19 @@ public class Main extends javax.swing.JFrame {
         // es un atributo de la clase, no hay que hacer nwe
         menuItemAñadir = new JMenuItem("Añadir");
         menuItemAñadir.setEnabled(false);
+        menuItemDisconnect = new JMenuItem("Cerrar Sesión");
+        menuItemDisconnect.setEnabled(false);
+        JMenuItem menuItemRegistrarse = new JMenuItem("Registrarse");
         JMenuItem menuItemSalir = new JMenuItem("Salir");
 
         menuBar.add(jMenuInicio);
         jMenuInicio.add(menuItemLogin);
         jMenuInicio.addSeparator();
         jMenuInicio.add(menuItemAñadir);
+        jMenuInicio.addSeparator();
+        jMenuInicio.add(menuItemDisconnect);
+        jMenuInicio.addSeparator();
+        jMenuInicio.add(menuItemRegistrarse);
         jMenuInicio.addSeparator();
         jMenuInicio.add(menuItemSalir);
 
@@ -100,14 +109,36 @@ public class Main extends javax.swing.JFrame {
             ContextService.getInstance().getItem("usuarioActivo").ifPresent( (_)->{
                 menuItemAñadir.setEnabled(true);
             });
+            ContextService.getInstance().getItem("usuarioActivo").ifPresent( (_)->{
+                menuItemDisconnect.setEnabled(true);
+            });
+            ContextService.getInstance().getItem("usuarioActivo").ifPresent( (_)->{
+                menuItemLogin.setEnabled(false);
+            });
+            ContextService.getInstance().getItem("usuarioActivo").ifPresent( (_)->{
+                menuItemRegistrarse.setEnabled(false);
+            });
+        });
+
+        menuItemRegistrarse.addActionListener(e -> {
+            (new Register()).setVisible(true);
         });
 
         menuItemSalir.addActionListener(e -> { System.exit(0); });
         menuItemAñadir.addActionListener(e -> {
             // Añadir nueva pelicula
-            //JOptionPane.showMessageDialog(this, "No implementado aún");
             (new CreateForm(dataservice)).setVisible(true);
             loadDataTable();
+        });
+
+        menuItemDisconnect.addActionListener(e -> {
+            ContextService.getInstance().removeItem("usuarioActivo");
+            if(ContextService.getInstance().getItem("usuarioActivo").isEmpty()){
+                menuItemLogin.setEnabled(true);
+                menuItemAñadir.setEnabled(false);
+                menuItemDisconnect.setEnabled(false);
+                menuItemRegistrarse.setEnabled(true);
+            }
         });
         return menuBar;
     }

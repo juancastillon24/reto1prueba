@@ -98,7 +98,6 @@ public class CsvDataService implements DataService {
             Pelicula peliculaEliminar = (Pelicula) peliculaOpt.get();
             int idEliminar = peliculaEliminar.getId();
 
-            logger.info("Borrando pelicula");
             try (BufferedReader br = new BufferedReader(new FileReader(new File(archivo)))) {
                 var contenido = br.lines();
 
@@ -130,6 +129,30 @@ public class CsvDataService implements DataService {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+            logger.info("Abriendo el archivo para eliminar la pelicula");
+            try (var bfw = new BufferedWriter(new FileWriter(new File(archivo), false))) {
+
+                for (Pelicula pelicula : salida) {
+                    String linea = new StringBuilder()
+                            .append(pelicula.getId()).append(",")
+                            .append(pelicula.getTitulo()).append(",")
+                            .append(pelicula.getAño()).append(",")
+                            .append(pelicula.getDirector()).append(",")
+                            .append(pelicula.getDescripcion()).append(",")
+                            .append(pelicula.getGenero()).append(",")
+                            .append(pelicula.getImagen()).append(",")
+                            .append(pelicula.getId_UsuarioPelicula())
+                            .toString();
+
+                    bfw.write(linea);
+                    bfw.newLine();
+                }
+
+                logger.info("Pelicula eliminada correctamente");
+
+            } catch (IOException e) {
+                throw new RuntimeException();
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "No hay pelicula seleccionada", "", JOptionPane.WARNING_MESSAGE);
         }
@@ -137,44 +160,4 @@ public class CsvDataService implements DataService {
         return salida;
     }
 
-    /*@Override
-    public Optional<Pelicula> delete(Pelicula pelicula) {
-        ContextService.getInstance().removeItem("peliculaSeleccionada");
-        return Optional.of(pelicula);
-
-        var salida = new ArrayList<Pelicula>();
-
-        logger.info("Abriendo archivo");
-        try (BufferedReader br = new BufferedReader(new FileReader(new File(archivo)))) {
-            var contenido = br.lines();
-
-            contenido.forEach(line -> {
-                String[] lineArray = line.split(",");
-                if (lineArray.length < 7) {
-                    logger.severe("Linea mal formada");
-                } else {
-                    Pelicula pelicula = new Pelicula();
-                    pelicula.setId(Integer.parseInt(lineArray[0]));
-                    pelicula.setTitulo(lineArray[1]);
-                    pelicula.setAño(Integer.parseInt(lineArray[2]));
-                    pelicula.setDirector(lineArray[3]);
-                    pelicula.setDescripcion(lineArray[4]);
-                    pelicula.setGenero(lineArray[5]);
-                    pelicula.setImagen(lineArray[6]);
-                    pelicula.setId_UsuarioPelicula(Integer.parseInt(lineArray[7]));
-                    salida.add(pelicula);
-                }
-            });
-            lastId = salida.size();
-            logger.info("Actualizo tamaño: " + lastId);
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return salida;
-
-    }*/
 }
